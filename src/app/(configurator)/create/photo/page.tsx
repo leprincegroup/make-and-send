@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   useConfiguratorStore,
@@ -19,6 +19,7 @@ import {
   ArrowRight,
   UserPlus,
   Camera,
+  Loader2,
 } from "lucide-react";
 
 function PersonCard({
@@ -35,16 +36,61 @@ function PersonCard({
   canRemove: boolean;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Clean up local preview blob URL on unmount
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   const handleFile = useCallback(
-    (files: FileList | null) => {
+    async (files: FileList | null) => {
       if (!files || files.length === 0) return;
       const file = files[0];
-      const url = URL.createObjectURL(file);
-      onUpdate(person.id, { photoUrl: url, photoName: file.name });
+      setUploadError(null);
+
+      // Show instant local preview
+      const localUrl = URL.createObjectURL(file);
+      setPreviewUrl(localUrl);
+
+      // Upload to server for persistent storage
+      setUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || "Upload failed");
+        }
+
+        const { url } = await res.json();
+        onUpdate(person.id, { photoUrl: url, photoName: file.name });
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Upload failed";
+        setUploadError(message);
+        // Clear the preview since the upload failed
+        setPreviewUrl(null);
+        URL.revokeObjectURL(localUrl);
+      } finally {
+        setUploading(false);
+      }
     },
     [person.id, onUpdate]
   );
+
+  // Use the persisted URL from the store, or the local preview while uploading
+  const displayUrl = person.photoUrl || previewUrl;
 
   return (
     <div className="rounded-3xl bg-white border border-navy/5 p-5 sm:p-6 shadow-sm transition-all hover:shadow-md">
@@ -71,24 +117,35 @@ function PersonCard({
       <div className="grid gap-4 sm:grid-cols-[140px_1fr]">
         {/* Photo upload */}
         <div>
-          {person.photoUrl ? (
+          {displayUrl ? (
             <div className="relative">
               <div className="relative size-[140px] overflow-hidden rounded-2xl border-2 border-navy/10">
                 <img
-                  src={person.photoUrl}
+                  src={displayUrl}
                   alt={person.photoName}
                   className="absolute inset-0 size-full object-cover"
                 />
+                {uploading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-navy/40">
+                    <Loader2 className="size-6 text-white animate-spin" />
+                  </div>
+                )}
               </div>
-              <button
-                onClick={() =>
-                  onUpdate(person.id, { photoUrl: "", photoName: "" })
-                }
-                className="absolute -top-2 -right-2 flex size-6 items-center justify-center rounded-full bg-coral text-white shadow-sm transition-transform hover:scale-110"
-                aria-label="Remove photo"
-              >
-                <X className="size-3.5" />
-              </button>
+              {!uploading && (
+                <button
+                  onClick={() => {
+                    if (previewUrl) {
+                      URL.revokeObjectURL(previewUrl);
+                      setPreviewUrl(null);
+                    }
+                    onUpdate(person.id, { photoUrl: "", photoName: "" });
+                  }}
+                  className="absolute -top-2 -right-2 flex size-6 items-center justify-center rounded-full bg-coral text-white shadow-sm transition-transform hover:scale-110"
+                  aria-label="Remove photo"
+                >
+                  <X className="size-3.5" />
+                </button>
+              )}
             </div>
           ) : (
             <button
@@ -100,6 +157,9 @@ function PersonCard({
                 Add photo
               </span>
             </button>
+          )}
+          {uploadError && (
+            <p className="mt-1.5 text-[11px] text-coral">{uploadError}</p>
           )}
           <input
             ref={fileInputRef}
