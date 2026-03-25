@@ -8,16 +8,22 @@ import {
 import type { OrderStatus } from "@prisma/client";
 
 // ---------------------------------------------------------------------------
-// Shared auth check (simple key-based for now)
+// Shared auth check (Supabase session-based)
 // ---------------------------------------------------------------------------
 
-const ADMIN_KEY = "admin123";
+async function assertAdmin() {
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-function assertAdmin(formData: FormData) {
-  const key = formData.get("_adminKey") as string | null;
-  if (key !== ADMIN_KEY) {
+  if (!user) {
     throw new Error("Unauthorized");
   }
+
+  // For now, any authenticated user is treated as admin.
+  // Add role checks here later (e.g. user_metadata.role === "admin").
 }
 
 // ---------------------------------------------------------------------------
@@ -25,7 +31,7 @@ function assertAdmin(formData: FormData) {
 // ---------------------------------------------------------------------------
 
 export async function updateOrderStatusAction(formData: FormData): Promise<void> {
-  assertAdmin(formData);
+  await assertAdmin();
 
   const orderId = formData.get("orderId") as string;
   const status = formData.get("status") as OrderStatus;
@@ -48,7 +54,7 @@ export async function updateOrderStatusAction(formData: FormData): Promise<void>
 // ---------------------------------------------------------------------------
 
 export async function uploadProofAction(formData: FormData): Promise<void> {
-  assertAdmin(formData);
+  await assertAdmin();
 
   const orderId = formData.get("orderId") as string;
   const imageUrlsRaw = formData.get("imageUrls") as string;
@@ -58,7 +64,7 @@ export async function uploadProofAction(formData: FormData): Promise<void> {
   }
 
   // For now, accept comma-separated URLs. In production this would handle
-  // actual file uploads to Vercel Blob / S3 first.
+  // actual file uploads to Supabase Storage first.
   const imageUrls = imageUrlsRaw
     .split(",")
     .map((url) => url.trim())
@@ -81,7 +87,7 @@ export async function uploadProofAction(formData: FormData): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function addTrackingAction(formData: FormData): Promise<void> {
-  assertAdmin(formData);
+  await assertAdmin();
 
   const orderId = formData.get("orderId") as string;
   const itemId = formData.get("itemId") as string;

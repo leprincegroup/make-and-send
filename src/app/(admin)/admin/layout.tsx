@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 import { Logo } from "@/components/shared/logo";
 import { SITE_NAME } from "@/lib/constants";
 import {
@@ -9,6 +9,7 @@ import {
   Image,
   Palette,
   Shield,
+  LogOut,
 } from "lucide-react";
 
 export const metadata = {
@@ -23,54 +24,33 @@ const NAV_ITEMS = [
   { label: "Templates", href: "/admin/templates", icon: Palette },
 ];
 
+async function signOut() {
+  "use server";
+
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
+}
+
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Simple auth: check cookie or query param
-  // In production this would be replaced by proper session-based auth
-  const cookieStore = await cookies();
-  const hasAuthCookie = cookieStore.get("admin_key")?.value === "admin123";
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // If the cookie is not set we cannot check the query param in a layout
-  // (layouts don't receive searchParams). Instead, the login gate is
-  // handled by a thin middleware-like check in each page that sets the
-  // cookie on first visit with ?key=admin123. See the helper below.
-
-  if (!hasAuthCookie) {
-    // Render a simple login gate
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-cream">
-        <div className="w-full max-w-sm rounded-2xl border border-navy/[0.08] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]">
-          <div className="mb-6 flex items-center justify-center">
-            <Logo className="h-8 w-auto text-navy" />
-          </div>
-          <h1 className="mb-2 text-center text-xl font-bold text-navy">
-            Admin Access
-          </h1>
-          <p className="mb-6 text-center text-sm text-navy/60">
-            Enter the admin key to continue
-          </p>
-          <form action="/admin/api/login" method="GET">
-            <input
-              type="password"
-              name="key"
-              placeholder="Admin key"
-              required
-              className="mb-4 w-full rounded-lg border border-navy/[0.08] bg-cream/40 px-4 py-2.5 text-sm text-navy placeholder:text-navy/40 outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
-            />
-            <button
-              type="submit"
-              className="w-full rounded-lg bg-navy px-4 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-navy-light"
-            >
-              Log in
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+  if (!user) {
+    redirect("/login");
   }
+
+  // For now, any authenticated user is treated as admin.
+  // Role-based checks can be added later via user_metadata or a DB role column.
+
+  const displayName =
+    user.user_metadata?.full_name || user.email || "Admin";
 
   return (
     <div className="flex min-h-screen">
@@ -101,17 +81,28 @@ export default async function AdminLayout({
           ))}
         </nav>
 
-        {/* Role indicator */}
+        {/* User info + sign out */}
         <div className="border-t border-white/10 px-5 py-4">
           <div className="flex items-center gap-2">
             <div className="flex size-8 items-center justify-center rounded-full bg-gold/20">
               <Shield className="size-4 text-gold" />
             </div>
-            <div>
-              <p className="text-xs font-semibold text-cream">Admin</p>
-              <p className="text-xs text-cream/50">Super Admin</p>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-semibold text-cream">
+                {displayName}
+              </p>
+              <p className="text-xs text-cream/50">Admin</p>
             </div>
           </div>
+          <form action={signOut} className="mt-3">
+            <button
+              type="submit"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
+            >
+              <LogOut className="size-3.5" />
+              Sign out
+            </button>
+          </form>
         </div>
       </aside>
 

@@ -238,7 +238,7 @@ export default function CreatePage() {
     const hasPhoto = people.some((p) => p.photoUrl);
     if (hasPhoto) {
       setStep(2);
-      router.push("/create/checkout");
+      router.push("/create/preview");
     }
   }, [people, setStep, router]);
 
@@ -399,7 +399,7 @@ export default function CreatePage() {
                   : "bg-white/10 text-cream/30 cursor-not-allowed"
               )}
             >
-              Continue to Checkout
+              Continue to Preview
               <ArrowRight className="size-4" />
             </button>
 

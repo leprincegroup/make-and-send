@@ -276,7 +276,7 @@ export default async function AdminOrderDetailPage({
 
             {/* Upload proof form */}
             <form action={uploadProofAction} className="mt-4 space-y-3">
-              <input type="hidden" name="_adminKey" value="admin123" />
+
               <input type="hidden" name="orderId" value={order.id} />
               <div>
                 <label
@@ -310,7 +310,7 @@ export default async function AdminOrderDetailPage({
             {/* Quick advance button */}
             {nextStatus && (
               <form action={updateOrderStatusAction} className="mb-4">
-                <input type="hidden" name="_adminKey" value="admin123" />
+  
                 <input type="hidden" name="orderId" value={order.id} />
                 <input type="hidden" name="status" value={nextStatus} />
                 <button
@@ -325,7 +325,7 @@ export default async function AdminOrderDetailPage({
 
             {/* Manual status change */}
             <form action={updateOrderStatusAction} className="space-y-3">
-              <input type="hidden" name="_adminKey" value="admin123" />
+
               <input type="hidden" name="orderId" value={order.id} />
               <div>
                 <label
@@ -374,7 +374,7 @@ export default async function AdminOrderDetailPage({
           {/* Add tracking */}
           <Card title="Tracking" icon={Truck}>
             <form action={addTrackingAction} className="space-y-3">
-              <input type="hidden" name="_adminKey" value="admin123" />
+
               <input type="hidden" name="orderId" value={order.id} />
               <div>
                 <label

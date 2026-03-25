@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 const STEPS = [
   { label: "Create", path: "/create/photo" },
+  { label: "Preview", path: "/create/preview" },
   { label: "Checkout", path: "/create/checkout" },
 ];
 

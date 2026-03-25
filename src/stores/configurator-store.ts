@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { MaterialTierKey } from "@/lib/constants";
+import type { PreviewResult } from "@/types/preview";
 
 export interface ShippingAddress {
   firstName: string;
@@ -33,6 +34,9 @@ export interface OrderPerson {
   shippingAddress: ShippingAddress;
 }
 
+/** Maps person ID to their AI-generated preview result */
+type PreviewDataMap = Record<string, PreviewResult>;
+
 interface ConfiguratorState {
   step: number;
   people: OrderPerson[];
@@ -42,6 +46,7 @@ interface ConfiguratorState {
   shipToOneAddress: boolean;
   sharedAddress: ShippingAddress;
   buyerEmail: string;
+  previewData: PreviewDataMap;
 }
 
 interface ConfiguratorActions {
@@ -54,6 +59,7 @@ interface ConfiguratorActions {
   setShipToOneAddress: (value: boolean) => void;
   setSharedAddress: (address: Partial<ShippingAddress>) => void;
   setBuyerEmail: (email: string) => void;
+  setPreviewData: (data: PreviewDataMap) => void;
   setStep: (step: number) => void;
   reset: () => void;
 }
@@ -67,6 +73,7 @@ const initialState: ConfiguratorState = {
   shipToOneAddress: true,
   sharedAddress: { ...emptyAddress },
   buyerEmail: "",
+  previewData: {},
 };
 
 export function createPersonId() {
@@ -118,6 +125,8 @@ export const useConfiguratorStore = create<ConfiguratorState & ConfiguratorActio
         })),
 
       setBuyerEmail: (email) => set({ buyerEmail: email }),
+
+      setPreviewData: (data) => set({ previewData: data }),
 
       setStep: (step) => set({ step }),
 

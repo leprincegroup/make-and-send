@@ -155,7 +155,7 @@ export default function CheckoutPage() {
   const setStep = useConfiguratorStore((s) => s.setStep);
 
   useEffect(() => {
-    setStep(2);
+    setStep(3);
   }, [setStep]);
 
   // Redirect if no people with photos
@@ -167,8 +167,8 @@ export default function CheckoutPage() {
   }, [people, router]);
 
   const handleBack = useCallback(() => {
-    setStep(1);
-    router.push("/create/photo");
+    setStep(2);
+    router.push("/create/preview");
   }, [setStep, router]);
 
   // Price calculation
