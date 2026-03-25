@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum Role {
+  CUSTOMER
+  TEAM_ADMIN
+  TEAM_MEMBER
+  SALES_REP
+  SUPER_ADMIN
+}
+
+enum MaterialTier {
+  STANDARD
+  PREMIUM
+  DELUXE
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PAID
+  IN_PRODUCTION
+  PROOF_READY
+  PROOF_APPROVED
+  PROOF_REVISION
+  SHIPPING
+  DELIVERED
+  CANCELLED
+}
+
+enum ProofStatus {
+  PENDING
+  APPROVED
+  REVISION_REQUESTED
+}
+
+// ---------------------------------------------------------------------------
+// Models
+// ---------------------------------------------------------------------------
+
+model User {
+  id             String        @id @default(cuid()) @map("id")
+  email          String        @unique @map("email")
+  name           String?       @map("name")
+  role           Role          @default(CUSTOMER) @map("role")
+  companyName    String?       @map("company_name")
+  organizationId String?       @map("organization_id")
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  orders         Order[]
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Organization {
+  id               String   @id @default(cuid()) @map("id")
+  name             String   @map("name")
+  slug             String   @unique @map("slug")
+  logoUrl          String?  @map("logo_url")
+  stripeCustomerId String?  @map("stripe_customer_id")
+  billingEmail     String?  @map("billing_email")
+  members          User[]
+  employees        Json?    @map("employees")
+  orders           Order[]
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("organizations")
+}
+
+model Category {
+  id          String     @id @default(cuid()) @map("id")
+  name        String     @map("name")
+  slug        String     @unique @map("slug")
+  description String?    @map("description")
+  imageUrl    String?    @map("image_url")
+  sortOrder   Int        @default(0) @map("sort_order")
+  templates   Template[]
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model Template {
+  id                   String       @id @default(cuid()) @map("id")
+  name                 String       @map("name")
+  slug                 String       @unique @map("slug")
+  description          String?      @map("description")
+  categoryId           String       @map("category_id")
+  category             Category     @relation(fields: [categoryId], references: [id])
+  basePrice            Decimal      @default(89) @map("base_price") @db.Decimal(10, 2)
+  imageUrl             String?      @map("image_url")
+  galleryUrls          String[]     @map("gallery_urls")
+  isActive             Boolean      @default(true) @map("is_active")
+  isFeatured           Boolean      @default(false) @map("is_featured")
+  availableTiers       MaterialTier[] @map("available_tiers")
+  customizationOptions Json?        @map("customization_options")
+  createdAt            DateTime     @default(now()) @map("created_at")
+  updatedAt            DateTime     @updatedAt @map("updated_at")
+
+  @@index([categoryId])
+  @@index([isActive, isFeatured])
+  @@map("templates")
+}
+
+model Order {
+  id               String             @id @default(cuid()) @map("id")
+  orderNumber      String             @unique @map("order_number")
+  userId           String?            @map("user_id")
+  user             User?              @relation(fields: [userId], references: [id])
+  organizationId   String?            @map("organization_id")
+  organization     Organization?      @relation(fields: [organizationId], references: [id])
+  status           OrderStatus        @default(DRAFT) @map("status")
+  buyerEmail       String             @map("buyer_email")
+  buyerFirstName   String?            @map("buyer_first_name")
+  buyerLastName    String?            @map("buyer_last_name")
+  materialTier     MaterialTier?      @map("material_tier")
+  subtotal         Decimal            @default(0) @map("subtotal") @db.Decimal(10, 2)
+  discountPercent  Decimal            @default(0) @map("discount_percent") @db.Decimal(5, 2)
+  discountAmount   Decimal            @default(0) @map("discount_amount") @db.Decimal(10, 2)
+  total            Decimal            @default(0) @map("total") @db.Decimal(10, 2)
+  stripePaymentId  String?            @map("stripe_payment_id")
+  stripeSessionId  String?            @unique @map("stripe_session_id")
+  shipToOneAddress Boolean            @default(true) @map("ship_to_one_address")
+  sharedAddress    Json?              @map("shared_address")
+  isGift           Boolean            @default(false) @map("is_gift")
+  giftMessage      String?            @map("gift_message")
+  giftToken        String?            @unique @map("gift_token")
+  items            OrderItem[]
+  proofs           Proof[]
+  statusHistory    OrderStatusEvent[]
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([status])
+  @@index([buyerEmail])
+  @@map("orders")
+}
+
+model OrderItem {
+  id              String       @id @default(cuid()) @map("id")
+  orderId         String       @map("order_id")
+  order           Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  materialTier    MaterialTier? @map("material_tier")
+  unitPrice       Decimal      @map("unit_price") @db.Decimal(10, 2)
+  recipientName   String       @map("recipient_name")
+  plaqueText      String?      @map("plaque_text")
+  photoUrl        String       @map("photo_url")
+  photoName       String?      @map("photo_name")
+  shippingAddress Json?        @map("shipping_address")
+  aiPreviewUrl    String?      @map("ai_preview_url")
+  proofStatus     ProofStatus? @map("proof_status")
+  trackingNumber  String?      @map("tracking_number")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  @@map("order_items")
+}
+
+model Proof {
+  id             String      @id @default(cuid()) @map("id")
+  orderId        String      @map("order_id")
+  order          Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  version        Int         @default(1) @map("version")
+  status         ProofStatus @default(PENDING) @map("status")
+  imageUrls      String[]    @map("image_urls")
+  approvalToken  String?     @unique @map("approval_token")
+  approvedAt     DateTime?   @map("approved_at")
+  revisionNotes  String?     @map("revision_notes")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+
+  @@index([orderId])
+  @@map("proofs")
+}
+
+model OrderStatusEvent {
+  id        String      @id @default(cuid()) @map("id")
+  orderId   String      @map("order_id")
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus @map("status")
+  note      String?     @map("note")
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  @@index([orderId])
+  @@map("order_status_events")
+}
+
+model WaitlistEntry {
+  id        String   @id @default(cuid()) @map("id")
+  email     String   @unique @map("email")
+  name      String?  @map("name")
+  company   String?  @map("company")
+  interest  String?  @map("interest")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("waitlist_entries")
+}

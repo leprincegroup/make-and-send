@@ -1,48 +1,26 @@
 export const SITE_NAME = "Make & Send";
 export const SITE_DESCRIPTION =
-  "Custom bobbleheads for every occasion. Design, personalize, and send unforgettable gifts to employees, clients, and loved ones.";
+  "Custom bobbleheads that close deals and celebrate teams. The sales outreach and employee recognition tool that sits on their desk, not in their trash.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://makeandsend.com";
 
+export const PRODUCT = {
+  name: "Custom Bobblehead",
+  price: 129,
+  description: "Hand-sculpted from your photo",
+  material: "Hand-painted resin",
+  features: [
+    "Hand-sculpted from your photo",
+    "Hand-painted details",
+    "Premium resin material",
+    "Custom branded plaque",
+    "Premium gift-ready packaging",
+    "Unlimited free revisions",
+  ],
+} as const;
+
+// Keep for backward compat with existing code that references MATERIAL_TIERS
 export const MATERIAL_TIERS = {
-  STANDARD: {
-    name: "Standard",
-    price: 89,
-    description: "Great for gifts and fun",
-    material: "Resin",
-    features: [
-      "Hand-sculpted from your photo",
-      "High-quality resin material",
-      "Custom base color",
-      "Personalized plaque",
-      "Gift-ready packaging",
-    ],
-  },
-  PREMIUM: {
-    name: "Premium",
-    price: 129,
-    description: "Enhanced detail and finish",
-    material: "Hand-painted resin",
-    features: [
-      "Everything in Standard",
-      "Hand-painted details",
-      "Premium finish coating",
-      "Multiple accessory options",
-      "Priority production",
-    ],
-  },
-  DELUXE: {
-    name: "Deluxe",
-    price: 189,
-    description: "Museum-quality collectible",
-    material: "Premium clay",
-    features: [
-      "Everything in Premium",
-      "Artist-grade premium clay",
-      "Ultra-detailed sculpting",
-      "Custom accessories included",
-      "Express production & shipping",
-    ],
-  },
+  STANDARD: { ...PRODUCT, name: "Standard" },
 } as const;
 
 export type MaterialTierKey = keyof typeof MATERIAL_TIERS;
@@ -53,13 +31,14 @@ export const BULK_DISCOUNTS = [
   { minQuantity: 25, discount: 0.2, label: "20% off" },
 ] as const;
 
-export const CATEGORIES = [
-  { name: "Business & Office", slug: "business", icon: "Briefcase" },
-  { name: "Sports & Hobbies", slug: "sports", icon: "Trophy" },
-  { name: "Wedding & Couples", slug: "wedding", icon: "Heart" },
-  { name: "Graduation", slug: "graduation", icon: "GraduationCap" },
-  { name: "Music & Entertainment", slug: "music", icon: "Music" },
-  { name: "Pets & Animals", slug: "pets", icon: "PawPrint" },
+export const OCCASIONS = [
+  "Sales Outreach",
+  "New Client Welcome",
+  "Employee Birthdays",
+  "Work Anniversaries",
+  "Promotions",
+  "Team Wins",
+  "Client Retention",
 ] as const;
 
 export const ORDER_STATUSES = {
@@ -78,37 +57,36 @@ export const ORDER_STATUSES = {
 export const HOW_IT_WORKS_STEPS = [
   {
     step: 1,
-    title: "Choose Your Style",
+    title: "Upload a Photo",
     description:
-      "Browse our collection of 200+ bobblehead templates across business, sports, wedding, and more.",
-    icon: "Palette",
+      "Upload a clear photo of your prospect, team member, or client.",
+    icon: "Camera",
   },
   {
     step: 2,
-    title: "Upload a Photo",
+    title: "We Sculpt It",
     description:
-      "Send us a clear photo and our artists will sculpt an incredible likeness.",
-    icon: "Camera",
+      "Our artists hand-sculpt a custom bobblehead that captures their likeness perfectly.",
+    icon: "Palette",
   },
   {
     step: 3,
     title: "Approve Your Proof",
     description:
-      "Review a digital proof before production. Request revisions until it's perfect.",
+      "Review a digital proof before production. Revisions are free and unlimited.",
     icon: "Eye",
   },
   {
     step: 4,
-    title: "Deliver Smiles",
+    title: "Land on Their Desk",
     description:
-      "We'll ship your custom bobblehead in gift-ready packaging, straight to the recipient.",
+      "Gift-wrapped and shipped to their office. Your brand on their desk, permanently.",
     icon: "Gift",
   },
 ] as const;
 
 export const NAV_LINKS = [
   { label: "How It Works", href: "/how-it-works" },
-  { label: "Catalog", href: "/catalog" },
   { label: "Pricing", href: "/pricing" },
   { label: "For Teams", href: "/for-teams" },
   { label: "For Sales", href: "/for-sales" },
