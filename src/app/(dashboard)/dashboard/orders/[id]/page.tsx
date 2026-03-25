@@ -310,7 +310,7 @@ export default async function OrderDetailPage({
               <MiniSparkle className="h-3.5 w-3.5 text-gold" />
             </div>
             <div className="flex flex-col gap-3">
-              {order.items.map((item) => (
+              {order.items.map((item: { id: string; recipientName: string; photoUrl: string | null; plaqueText: string | null }) => (
                 <PersonCard
                   key={item.id}
                   name={item.recipientName}
