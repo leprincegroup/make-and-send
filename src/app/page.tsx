@@ -19,15 +19,15 @@ import { MarketingFooter } from "@/components/layout/marketing-footer";
 import { TestimonialsSection } from "@/components/marketing/testimonials";
 import {
   DoodleStar,
-  DoodleCamera,
-  DoodleSwirl,
-  DoodleSmile,
-  DoodleGift,
   MiniSparkle,
-  BobbleheadSuit,
-  BobbleheadCasual,
-  BobbleheadGift,
-  BobbleheadDesk,
+  MascotCamera,
+  MascotPaint,
+  MascotThumbsUp,
+  MascotGift,
+  MascotTarget,
+  MascotTeam,
+  MascotDesk,
+  MascotWave,
 } from "@/components/shared/illustrations";
 
 /* ─── How it Works Steps ─── */
@@ -37,28 +37,28 @@ const STEPS = [
     icon: Camera,
     title: "Upload a photo",
     desc: "One clear photo is all we need. We handle the rest — custom outfit, company logos, and all.",
-    doodle: DoodleCamera,
+    mascot: MascotCamera,
   },
   {
     num: 2,
     icon: Palette,
     title: "We sculpt it",
     desc: "Our artists hand-sculpt a one-of-a-kind bobblehead. No templates. True likeness.",
-    doodle: DoodleSwirl,
+    mascot: MascotPaint,
   },
   {
     num: 3,
     icon: Eye,
     title: "Approve the proof",
     desc: "Review your digital proof. Request unlimited free revisions until it's perfect.",
-    doodle: DoodleSmile,
+    mascot: MascotThumbsUp,
   },
   {
     num: 4,
     icon: Gift,
     title: "Land on their desk",
     desc: "Gift-wrapped and shipped directly. Your brand, their desk, permanent visibility.",
-    doodle: DoodleGift,
+    mascot: MascotGift,
   },
 ];
 
@@ -70,7 +70,7 @@ const USE_CASES = [
       "Stop sending cold emails that get ignored. Send a gift that lands on their desk and stays there. Cold gifting outperforms cold calling 3-to-1.",
     tag: "Cold Gifting",
     icon: Target,
-    bobblehead: BobbleheadSuit,
+    mascot: MascotTarget,
   },
   {
     title: "Employee Recognition",
@@ -78,7 +78,7 @@ const USE_CASES = [
       "Birthdays, promotions, work anniversaries. A bobblehead says 'we see you' in a way a gift card never will. Boost retention and morale.",
     tag: "Team Culture",
     icon: Users,
-    bobblehead: BobbleheadCasual,
+    mascot: MascotTeam,
   },
   {
     title: "Client Welcome",
@@ -86,7 +86,7 @@ const USE_CASES = [
       "Onboarding a new enterprise client? Send their champion a bobblehead. It says 'we invested in you' before the kickoff call.",
     tag: "Client Success",
     icon: Heart,
-    bobblehead: BobbleheadGift,
+    mascot: MascotWave,
   },
   {
     title: "Brand Amplification",
@@ -94,7 +94,7 @@ const USE_CASES = [
       "Every bobblehead wears a custom outfit with your company logo. Your brand sits on their desk for years — the ultimate conversation starter.",
     tag: "Brand Visibility",
     icon: TrendingUp,
-    bobblehead: BobbleheadDesk,
+    mascot: MascotDesk,
   },
 ];
 
@@ -117,14 +117,17 @@ export default function HomePage() {
         {/* ────────────────────────────────────────────────────
             1. HERO — Warm full-bleed with photo-like overlay
         ──────────────────────────────────────────────────── */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-navy via-navy-light to-[#4A4660]">
-          {/* Warm overlay gradients */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,160,84,0.12)_0%,transparent_70%)]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
-
-          {/* Subtle decorative elements */}
-          <DoodleStar className="absolute top-24 right-[12%] size-6 text-gold/20 animate-float" />
-          <MiniSparkle className="absolute bottom-32 left-[15%] size-5 text-gold/15 animate-pulse [animation-delay:1s]" />
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          {/* Background image */}
+          <img
+            src="/images/hero/team-bobbleheads.jpg"
+            alt=""
+            className="absolute inset-0 size-full object-cover"
+            aria-hidden="true"
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-navy/70" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/40 to-navy/60" />
 
           <div className="relative mx-auto max-w-4xl px-5 sm:px-8 lg:px-10 py-32 text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-cream leading-[1.1]">
@@ -243,7 +246,7 @@ export default function HomePage() {
 
                     {/* Soft pink illustration area */}
                     <div className="mb-5 flex h-32 items-center justify-center rounded-xl bg-pink-soft">
-                      <step.doodle className="size-16 text-navy/30 transition-transform group-hover:scale-110" />
+                      <step.mascot className="size-20 text-navy/30 transition-transform group-hover:scale-110" />
                     </div>
 
                     <h3 className="text-lg font-bold text-navy">{step.title}</h3>
@@ -298,7 +301,7 @@ export default function HomePage() {
                   <div className="group rounded-2xl border border-navy/[0.08] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] transition-all hover:shadow-[0_2px_8px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.05)] hover:-translate-y-1">
                     {/* Pink illustration box */}
                     <div className="mb-6 flex h-40 items-center justify-center rounded-xl bg-pink-soft">
-                      <uc.bobblehead className="size-20 text-navy/25 transition-transform group-hover:scale-110" />
+                      <uc.mascot className="size-24 text-navy/30 transition-transform group-hover:scale-110" />
                     </div>
 
                     {/* Tag pill */}

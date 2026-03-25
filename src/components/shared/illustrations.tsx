@@ -592,3 +592,447 @@ export function BobbleheadWobble({ className = "", color = "currentColor" }: Ill
     </svg>
   );
 }
+
+// ---------------------------------------------------------------------------
+// "Bobbie" Mascot Illustration System
+// A cute, minimal line-art bobblehead character with oversized head,
+// visible spring/coil neck, small body, stick arms/legs, and hand-drawn feel.
+// ---------------------------------------------------------------------------
+
+/** Bobbie waving hello — one arm raised, happy face. Used for hero/welcome. */
+export function MascotWave({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Oversized head */}
+      <circle cx="60" cy="32" r="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Subtle head fill */}
+      <circle cx="60" cy="32" r="26" fill="currentColor" opacity="0.04" />
+      {/* Eyes — slightly asymmetric for hand-drawn feel */}
+      <circle cx="52" cy="29" r="2" fill="currentColor" />
+      <circle cx="68" cy="28" r="2" fill="currentColor" />
+      {/* Happy smile */}
+      <path d="M50 38C53 43 67 43 70 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Rosy cheek hint */}
+      <circle cx="44" cy="36" r="3" fill="currentColor" opacity="0.07" />
+      <circle cx="76" cy="35" r="3" fill="currentColor" opacity="0.07" />
+      {/* Spring coil neck */}
+      <path d="M60 58C55 60 65 63 60 66C55 69 65 72 60 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Small body */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78L74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Body fill */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78Z" fill="currentColor" opacity="0.04" />
+      {/* Left arm — waving up */}
+      <path d="M46 82L30 64L24 52" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Waving hand — small open palm */}
+      <path d="M24 52L20 48M24 52L22 46M24 52L26 47" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Right arm — down at side */}
+      <path d="M74 83L88 96" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs */}
+      <path d="M52 102L49 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M68 102L71 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M44 126L49 126L52 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M76 126L71 126L68 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Motion lines near waving hand */}
+      <path d="M14 46L10 44" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M16 40L11 38" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M18 52L13 52" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Bobbie holding a camera, excited face. Used for "Upload photo" step. */
+export function MascotCamera({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Oversized head */}
+      <circle cx="60" cy="32" r="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="60" cy="32" r="26" fill="currentColor" opacity="0.04" />
+      {/* Eyes — wide/excited */}
+      <circle cx="52" cy="28" r="2.5" fill="currentColor" />
+      <circle cx="68" cy="27" r="2.5" fill="currentColor" />
+      {/* Excited open mouth */}
+      <ellipse cx="60" cy="40" rx="6" ry="4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring coil neck */}
+      <path d="M60 58C55 60 65 63 60 66C55 69 65 72 60 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Small body */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78L74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78Z" fill="currentColor" opacity="0.04" />
+      {/* Arms holding camera in front */}
+      <path d="M46 84L36 88L36 92" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M74 84L84 88L84 92" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Camera body */}
+      <rect x="34" y="86" width="52" height="18" rx="3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="34" y="86" width="52" height="18" rx="3" fill="currentColor" opacity="0.06" />
+      {/* Camera viewfinder bump */}
+      <path d="M50 86L53 80H67L70 86" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Lens */}
+      <circle cx="60" cy="95" r="6" stroke="currentColor" strokeWidth="2" />
+      <circle cx="60" cy="95" r="3" stroke="currentColor" strokeWidth="1.5" />
+      {/* Flash dot */}
+      <circle cx="78" cy="90" r="1.5" fill="currentColor" />
+      {/* Legs */}
+      <path d="M52 104L49 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M68 104L71 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M44 126L49 126L52 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M76 126L71 126L68 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Flash sparkle */}
+      <path d="M92 78L96 74L94 80L98 78" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Bobbie holding a paintbrush with paint splotches, focused face. Used for "We sculpt" step. */
+export function MascotPaint({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Oversized head */}
+      <circle cx="60" cy="32" r="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="60" cy="32" r="26" fill="currentColor" opacity="0.04" />
+      {/* Eyes — focused, slightly squinting */}
+      <path d="M48 28L56 28" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="52" cy="28" r="1.5" fill="currentColor" />
+      <path d="M64 27L72 27" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="68" cy="27" r="1.5" fill="currentColor" />
+      {/* Focused/determined mouth — slight smirk */}
+      <path d="M54 39C56 41 64 41 66 39" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Tongue sticking out slightly (concentrating) */}
+      <path d="M58 41C58 43 62 43 62 41" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Beret on head */}
+      <path d="M36 18C38 8 58 4 76 12L80 16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="56" cy="7" r="3" fill="currentColor" opacity="0.1" />
+      {/* Spring coil neck */}
+      <path d="M60 58C55 60 65 63 60 66C55 69 65 72 60 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Small body */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78L74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78Z" fill="currentColor" opacity="0.04" />
+      {/* Left arm — holding paintbrush up */}
+      <path d="M46 83L32 72L26 56" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Paintbrush */}
+      <path d="M26 56L18 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 42L20 34L22 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" opacity="0.1" />
+      {/* Right arm — down */}
+      <path d="M74 84L88 96" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Paint splotches */}
+      <circle cx="98" cy="62" r="4" fill="currentColor" opacity="0.1" />
+      <circle cx="104" cy="72" r="3" fill="currentColor" opacity="0.08" />
+      <circle cx="94" cy="74" r="2.5" fill="currentColor" opacity="0.12" />
+      {/* Legs */}
+      <path d="M52 102L49 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M68 102L71 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M44 126L49 126L52 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M76 126L71 126L68 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Bobbie giving thumbs up, big smile. Used for "Approve proof" step. */
+export function MascotThumbsUp({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Oversized head */}
+      <circle cx="60" cy="32" r="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="60" cy="32" r="26" fill="currentColor" opacity="0.04" />
+      {/* Eyes — happy, slightly closed (big smile) */}
+      <path d="M48 27C50 25 54 25 56 27" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M64 26C66 24 70 24 72 26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Big smile */}
+      <path d="M48 37C52 44 68 44 72 37" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Rosy cheeks */}
+      <circle cx="43" cy="36" r="3.5" fill="currentColor" opacity="0.07" />
+      <circle cx="77" cy="35" r="3.5" fill="currentColor" opacity="0.07" />
+      {/* Spring coil neck */}
+      <path d="M60 58C55 60 65 63 60 66C55 69 65 72 60 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Small body */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78L74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78Z" fill="currentColor" opacity="0.04" />
+      {/* Left arm — thumbs up! */}
+      <path d="M46 83L30 72" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Fist */}
+      <path d="M26 74C24 74 24 70 26 70L32 70C34 70 34 74 32 74Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Thumb pointing up */}
+      <path d="M28 70L28 60" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Right arm — relaxed at side */}
+      <path d="M74 84L88 96" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs */}
+      <path d="M52 102L49 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M68 102L71 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M44 126L49 126L52 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M76 126L71 126L68 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Sparkles around thumb */}
+      <path d="M20 56L18 52L22 54" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M34 58L36 54L38 58" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Bobbie holding/presenting a wrapped gift box, excited. Used for "Land on desk" step. */
+export function MascotGift({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Oversized head */}
+      <circle cx="60" cy="32" r="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="60" cy="32" r="26" fill="currentColor" opacity="0.04" />
+      {/* Eyes — wide/excited */}
+      <circle cx="52" cy="28" r="2.5" fill="currentColor" />
+      <circle cx="68" cy="27" r="2.5" fill="currentColor" />
+      {/* Eye sparkle */}
+      <circle cx="53" cy="27" r="0.8" fill="white" />
+      <circle cx="69" cy="26" r="0.8" fill="white" />
+      {/* Excited open smile */}
+      <path d="M50 38C54 44 66 44 70 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring coil neck */}
+      <path d="M60 58C55 60 65 63 60 66C55 69 65 72 60 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Small body */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78L74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78Z" fill="currentColor" opacity="0.04" />
+      {/* Arms reaching out holding gift */}
+      <path d="M46 84L34 90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M74 84L86 90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Gift box */}
+      <rect x="30" y="90" width="60" height="28" rx="3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="30" y="90" width="60" height="28" rx="3" fill="currentColor" opacity="0.06" />
+      {/* Gift ribbon vertical */}
+      <line x1="60" y1="90" x2="60" y2="118" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      {/* Gift ribbon horizontal */}
+      <line x1="30" y1="104" x2="90" y2="104" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      {/* Bow */}
+      <path d="M52 90C52 84 56 80 60 80C56 80 52 76 52 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M68 90C68 84 64 80 60 80C64 80 68 76 68 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs peek below gift */}
+      <path d="M48 118L46 132" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M72 118L74 132" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M41 132L46 132L49 134" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M79 132L74 132L71 134" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Bobbie standing on a desk/nameplate, proud pose. Used for brand/desk concept. */
+export function MascotDesk({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Desk surface */}
+      <line x1="4" y1="126" x2="116" y2="126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Nameplate base */}
+      <rect x="28" y="112" width="64" height="14" rx="2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="28" y="112" width="64" height="14" rx="2" fill="currentColor" opacity="0.06" />
+      {/* Nameplate text lines */}
+      <line x1="40" y1="119" x2="80" y2="119" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Oversized head */}
+      <circle cx="60" cy="28" r="24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="60" cy="28" r="24" fill="currentColor" opacity="0.04" />
+      {/* Eyes — proud, confident */}
+      <circle cx="52" cy="26" r="2" fill="currentColor" />
+      <circle cx="68" cy="25" r="2" fill="currentColor" />
+      {/* Proud smile */}
+      <path d="M50 34C54 39 66 39 70 34" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring coil neck */}
+      <path d="M60 52C56 54 64 56 60 58C56 60 64 62 60 64" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Body — standing tall */}
+      <path d="M48 68C46 72 44 84 44 90L76 90C76 84 74 72 72 68" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M48 68L72 68" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M48 68C46 72 44 84 44 90L76 90C76 84 74 72 72 68Z" fill="currentColor" opacity="0.04" />
+      {/* Arms — hands on hips (proud pose) */}
+      <path d="M48 72L36 80L40 90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M72 72L84 80L80 90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs on nameplate */}
+      <path d="M54 90L52 112" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M66 90L68 112" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M48 112L52 112L54 114" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M72 112L68 112L66 114" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Desk items — small pen */}
+      <path d="M100 118L104 110" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Desk items — small mug */}
+      <path d="M10 116L10 126L20 126L20 116" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M20 118L24 120L20 122" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Three small Bobbies together in a group, all smiling. Used for team/culture. */
+export function MascotTeam({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 200 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* --- Left Bobbie --- */}
+      {/* Head */}
+      <circle cx="46" cy="30" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="46" cy="30" r="20" fill="currentColor" opacity="0.04" />
+      {/* Eyes */}
+      <circle cx="40" cy="28" r="1.5" fill="currentColor" />
+      <circle cx="52" cy="27" r="1.5" fill="currentColor" />
+      {/* Smile */}
+      <path d="M40 35C42 38 50 38 52 35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring */}
+      <path d="M46 50C43 52 49 54 46 56" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Body */}
+      <path d="M37 60C35 63 34 72 34 76L58 76C58 72 57 63 55 60" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M37 60L55 60" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      {/* Arms */}
+      <path d="M37 63L28 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M55 63L64 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs */}
+      <path d="M42 76L40 96" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M50 76L52 96" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M36 96L40 96L42 98" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M56 96L52 96L50 98" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* --- Center Bobbie (slightly taller/larger) --- */}
+      {/* Head */}
+      <circle cx="100" cy="24" r="22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="100" cy="24" r="22" fill="currentColor" opacity="0.04" />
+      {/* Eyes */}
+      <circle cx="93" cy="22" r="1.8" fill="currentColor" />
+      <circle cx="107" cy="21" r="1.8" fill="currentColor" />
+      {/* Big smile */}
+      <path d="M92 30C95 35 105 35 108 30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring */}
+      <path d="M100 46C96 48 104 50 100 52C96 54 104 56 100 58" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Body */}
+      <path d="M89 62C87 65 85 76 85 80L115 80C115 76 113 65 111 62" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M89 62L111 62" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      {/* Arms — reaching out to neighbors */}
+      <path d="M89 66L76 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M111 66L124 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs */}
+      <path d="M95 80L93 100" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M105 80L107 100" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M89 100L93 100L95 102" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M111 100L107 100L105 102" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* --- Right Bobbie --- */}
+      {/* Head */}
+      <circle cx="154" cy="30" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="154" cy="30" r="20" fill="currentColor" opacity="0.04" />
+      {/* Eyes */}
+      <circle cx="148" cy="28" r="1.5" fill="currentColor" />
+      <circle cx="160" cy="27" r="1.5" fill="currentColor" />
+      {/* Smile */}
+      <path d="M148 35C150 38 158 38 160 35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Hair tuft */}
+      <path d="M146 12C148 9 152 8 156 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring */}
+      <path d="M154 50C151 52 157 54 154 56" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Body */}
+      <path d="M145 60C143 63 142 72 142 76L166 76C166 72 165 63 163 60" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M145 60L163 60" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      {/* Arms */}
+      <path d="M145 63L136 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M163 63L172 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs */}
+      <path d="M150 76L148 96" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M158 76L160 96" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet */}
+      <path d="M144 96L148 96L150 98" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M164 96L160 96L158 98" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* Small hearts between them */}
+      <path d="M72 50C72 47 75 45 77 47C79 45 82 47 82 50C82 54 77 56 77 56C77 56 72 54 72 50Z" fill="currentColor" opacity="0.1" />
+      <path d="M120 48C120 45 123 43 125 45C127 43 130 45 130 48C130 52 125 54 125 54C125 54 120 52 120 48Z" fill="currentColor" opacity="0.1" />
+    </svg>
+  );
+}
+
+/** Bobbie with a bullseye/target, determined face. Used for sales outreach. */
+export function MascotTarget({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Oversized head */}
+      <circle cx="60" cy="32" r="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="60" cy="32" r="26" fill="currentColor" opacity="0.04" />
+      {/* Eyes — determined, slightly angled brows */}
+      <circle cx="52" cy="29" r="2" fill="currentColor" />
+      <circle cx="68" cy="28" r="2" fill="currentColor" />
+      <path d="M48 24L56 26" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M72 23L64 25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      {/* Determined grin */}
+      <path d="M50 38C54 42 66 42 70 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Spring coil neck */}
+      <path d="M60 58C55 60 65 63 60 66C55 69 65 72 60 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Small body */}
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78L74 78" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M46 78C44 82 42 96 42 102L78 102C78 96 76 82 74 78Z" fill="currentColor" opacity="0.04" />
+      {/* Left arm pointing at target */}
+      <path d="M46 84L28 80" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Right arm — fist pump / ready pose */}
+      <path d="M74 82L86 74L90 66" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Target / bullseye — to the left */}
+      <circle cx="16" cy="80" r="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="16" cy="80" r="14" fill="currentColor" opacity="0.04" />
+      <circle cx="16" cy="80" r="9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="16" cy="80" r="4" fill="currentColor" opacity="0.12" />
+      {/* Arrow in bullseye */}
+      <path d="M16 80L32 68" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M30 68L32 68L32 70" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Legs */}
+      <path d="M52 102L49 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M68 102L71 126" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Feet — planted wide */}
+      <path d="M44 126L49 126L52 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M76 126L71 126L68 128" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Determination sparkle */}
+      <path d="M94 60L98 56L96 62L100 60" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
