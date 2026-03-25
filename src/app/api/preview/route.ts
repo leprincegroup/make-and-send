@@ -66,10 +66,10 @@ export async function POST(request: Request) {
     );
   }
 
-  // Check that the Anthropic API key is configured
-  if (!process.env.ANTHROPIC_API_KEY) {
+  // Check that the Gemini API key is configured
+  if (!process.env.GEMINI_API_KEY) {
     return Response.json(
-      { error: "AI preview service is not configured. Please set ANTHROPIC_API_KEY." },
+      { error: "AI preview service is not configured. Please set GEMINI_API_KEY." },
       { status: 503 }
     );
   }

@@ -18,5 +18,6 @@ export interface PreviewOptions {
 export interface PreviewResult {
   analysis: PhotoAnalysis;
   prompt: string;
+  imageUrl?: string;
   generatedAt: string;
 }

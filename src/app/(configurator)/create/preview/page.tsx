@@ -92,9 +92,39 @@ function PreviewCard({
         </div>
       </div>
 
-      {/* Generated prompt / description area */}
+      {/* Generated image and prompt area */}
       {preview && (
         <div className="mt-5">
+          {/* AI-generated bobblehead image */}
+          {preview.imageUrl ? (
+            <div className="mb-4">
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-navy/40">
+                AI-Generated Bobblehead
+              </p>
+              <div className="relative aspect-square w-full max-w-[320px] mx-auto overflow-hidden rounded-2xl border-2 border-gold/20 shadow-lg">
+                <img
+                  src={preview.imageUrl}
+                  alt="AI-generated bobblehead preview"
+                  className="absolute inset-0 size-full object-contain bg-white"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="mb-4 flex items-center justify-center rounded-2xl border-2 border-dashed border-navy/10 bg-gradient-to-br from-coral/5 to-gold/5 p-8">
+              <div className="text-center">
+                <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-gold/20">
+                  <Sparkles className="size-5 text-gold-dark" />
+                </div>
+                <p className="text-sm font-semibold text-navy/60">
+                  Image generation unavailable
+                </p>
+                <p className="mt-1 text-xs text-navy/40">
+                  The preview prompt is shown below
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="rounded-2xl bg-cream/70 p-4">
             <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-navy/40">
               Preview Description
@@ -102,21 +132,6 @@ function PreviewCard({
             <p className="text-sm leading-relaxed text-navy/70">
               {preview.prompt}
             </p>
-          </div>
-
-          {/* Placeholder for future image generation */}
-          <div className="mt-4 flex items-center justify-center rounded-2xl border-2 border-dashed border-navy/10 bg-gradient-to-br from-coral/5 to-gold/5 p-8">
-            <div className="text-center">
-              <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-gold/20">
-                <Sparkles className="size-5 text-gold-dark" />
-              </div>
-              <p className="text-sm font-semibold text-navy/60">
-                3D Preview Coming Soon
-              </p>
-              <p className="mt-1 text-xs text-navy/40">
-                Image generation will be available in a future update
-              </p>
-            </div>
           </div>
         </div>
       )}
@@ -132,10 +147,10 @@ function LoadingState() {
         <Sparkles className="absolute inset-0 m-auto size-6 text-gold animate-pulse" />
       </div>
       <p className="mt-4 text-sm font-semibold text-navy/60">
-        Analyzing your photo...
+        Generating your bobblehead...
       </p>
       <p className="mt-1 text-xs text-navy/40">
-        Our AI is studying every detail
+        Our AI is analyzing your photo and creating a preview
       </p>
     </div>
   );

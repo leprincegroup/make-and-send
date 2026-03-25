@@ -1,26 +1,27 @@
-import { getAnthropicClient } from "./anthropic";
-import type { PhotoAnalysis, PreviewOptions, PreviewResult } from "@/types/preview";
+import { getGeminiClient } from "./gemini";
+import type {
+  PhotoAnalysis,
+  PreviewOptions,
+  PreviewResult,
+} from "@/types/preview";
 
 /**
- * Analyze an uploaded photo using Claude's vision capabilities.
+ * Analyze an uploaded photo using Gemini's vision capabilities.
  * Extracts appearance details needed to describe a custom bobblehead.
  */
 export async function analyzePhoto(photoUrl: string): Promise<PhotoAnalysis> {
-  const client = getAnthropicClient();
+  const client = getGeminiClient();
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
+  const response = await client.chat.completions.create({
+    model: "gemini-3-flash-preview",
     max_tokens: 1024,
     messages: [
       {
         role: "user",
         content: [
           {
-            type: "image",
-            source: {
-              type: "url",
-              url: photoUrl,
-            },
+            type: "image_url",
+            image_url: { url: photoUrl },
           },
           {
             type: "text",
@@ -43,13 +44,15 @@ Return ONLY the JSON object, no markdown formatting or extra text.`,
     ],
   });
 
-  const textBlock = response.content.find((block) => block.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
+  const text = response.choices[0]?.message?.content;
+  if (!text) {
     throw new Error("No text response received from analysis");
   }
 
   try {
-    const analysis = JSON.parse(textBlock.text) as PhotoAnalysis;
+    // Strip potential markdown code fences
+    const cleaned = text.replace(/```(?:json)?\s*/g, "").replace(/```\s*/g, "").trim();
+    const analysis = JSON.parse(cleaned) as PhotoAnalysis;
     return analysis;
   } catch {
     throw new Error("Failed to parse photo analysis response");
@@ -58,8 +61,7 @@ Return ONLY the JSON object, no markdown formatting or extra text.`,
 
 /**
  * Generate a detailed image-generation prompt from the photo analysis
- * and customization options. This prompt is designed to work with
- * DALL-E, Stable Diffusion, Midjourney, or similar image generation APIs.
+ * and customization options.
  */
 export function generatePreviewPrompt(
   analysis: PhotoAnalysis,
@@ -69,49 +71,79 @@ export function generatePreviewPrompt(
   const plaqueText = options.plaqueText || name;
   const outfitDescription = options.outfitStyle || analysis.outfit;
 
-  const glassesNote = analysis.glasses
-    ? " wearing stylish glasses"
-    : "";
+  const glassesNote = analysis.glasses ? " wearing stylish glasses" : "";
 
   const prompt = [
-    `A 3D rendered custom bobblehead figurine of ${analysis.appearance},`,
-    `standing on a warm walnut-brown base with a gold nameplate reading "${plaqueText}".`,
-    `The figure has an oversized head (bobblehead proportions) with ${analysis.facialFeatures}${glassesNote}.`,
+    `Generate a 3D rendered custom bobblehead figurine.`,
+    `The figure has an oversized cartoonish head (bobblehead proportions) on a spring neck,`,
+    `standing on a dark base with a nameplate reading "${plaqueText}".`,
+    `${analysis.appearance}.`,
+    `The figure has ${analysis.facialFeatures}${glassesNote}.`,
     `${analysis.hairStyle}.`,
     `${analysis.skinTone} skin tone.`,
     `Wearing ${outfitDescription}.`,
     `The figure is in a ${analysis.suggestedPose} pose.`,
-    `Pixar/cartoon style, soft studio lighting, clean white background,`,
-    `high detail, miniature figurine aesthetic, warm and friendly expression.`,
+    `Pixar/cartoon style, studio lighting, soft shadows, white/light gray background.`,
+    `High quality, detailed, fun and professional.`,
   ].join(" ");
 
   return prompt;
 }
 
 /**
- * Full preview generation pipeline.
- * Analyzes the photo, generates the prompt, and returns the complete result.
+ * Generate a bobblehead preview image from a text prompt using Gemini's
+ * image generation model via the OpenAI-compatible images API.
  *
- * To add actual image generation later, plug in an image generation API
- * call after generating the prompt and include the resulting image URL
- * in the PreviewResult.
+ * Returns the image as a base64 data URL, or null if generation fails.
+ */
+export async function generatePreviewImage(
+  prompt: string
+): Promise<string | null> {
+  try {
+    const client = getGeminiClient();
+
+    const response = await client.images.generate({
+      model: "gemini-2.5-flash-image",
+      prompt,
+      n: 1,
+      response_format: "b64_json",
+    });
+
+    const b64 = response.data?.[0]?.b64_json;
+    if (!b64) {
+      console.error("Gemini image generation returned no image data");
+      return null;
+    }
+
+    return `data:image/png;base64,${b64}`;
+  } catch (err) {
+    console.error("Gemini image generation failed:", err);
+    return null;
+  }
+}
+
+/**
+ * Full preview generation pipeline.
+ * Analyzes the photo, generates the prompt, generates the image,
+ * and returns the complete result.
  */
 export async function generatePreview(
   photoUrl: string,
   options: PreviewOptions
 ): Promise<PreviewResult> {
-  // Step 1: Analyze the uploaded photo with Claude Vision
+  // Step 1: Analyze the uploaded photo with Gemini Vision
   const analysis = await analyzePhoto(photoUrl);
 
   // Step 2: Generate an image-generation prompt from the analysis
   const prompt = generatePreviewPrompt(analysis, options);
 
-  // Step 3: (Future) Call image generation API here
-  // e.g. const imageUrl = await generateImage(prompt);
+  // Step 3: Generate the bobblehead preview image
+  const imageUrl = await generatePreviewImage(prompt);
 
   return {
     analysis,
     prompt,
+    imageUrl: imageUrl ?? undefined,
     generatedAt: new Date().toISOString(),
   };
 }
