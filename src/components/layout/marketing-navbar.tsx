@@ -19,7 +19,7 @@ export function MarketingNavbar({ variant: _variant = "dark" }: { variant?: "lig
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-4 px-4 pointer-events-none">
       <nav
-        className="pointer-events-auto mx-auto flex h-14 max-w-4xl items-center justify-between rounded-full bg-navy/90 px-3 pl-6 backdrop-blur-md shadow-lg shadow-black/10"
+        className="pointer-events-auto mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full bg-navy/90 px-3 pl-6 backdrop-blur-md shadow-lg shadow-black/10"
         aria-label="Main navigation"
       >
         {/* Logo */}
@@ -41,8 +41,14 @@ export function MarketingNavbar({ variant: _variant = "dark" }: { variant?: "lig
           ))}
         </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden lg:flex">
+        {/* Desktop CTA + Login */}
+        <div className="hidden items-center gap-2 lg:flex">
+          <Link
+            href="/login"
+            className="px-4 py-1.5 text-sm font-medium text-cream/60 transition-colors hover:text-white"
+          >
+            Log in
+          </Link>
           <Link
             href="/create"
             className="inline-flex items-center justify-center rounded-full bg-gold px-5 py-2 text-sm font-semibold text-navy transition-all hover:bg-gold-dark hover:scale-[1.03] active:scale-[0.98]"
@@ -75,7 +81,16 @@ export function MarketingNavbar({ variant: _variant = "dark" }: { variant?: "lig
                     {link.label}
                   </Link>
                 ))}
-                <div className="mt-6 px-2">
+                <div className="mt-4 border-t border-white/10 pt-4">
+                  <Link
+                    href="/login"
+                    onClick={() => setOpen(false)}
+                    className="flex w-full rounded-xl px-4 py-3 text-base font-medium text-cream/60 transition-colors hover:bg-white/10 hover:text-cream"
+                  >
+                    Log in
+                  </Link>
+                </div>
+                <div className="mt-4 px-2">
                   <Link
                     href="/create"
                     onClick={() => setOpen(false)}

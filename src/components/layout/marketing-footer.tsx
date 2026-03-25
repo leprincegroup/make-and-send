@@ -17,8 +17,10 @@ const footerLinks = {
   ],
   Support: [
     { label: "FAQ", href: "/pricing#faq" },
+    { label: "Track Order", href: "/dashboard/orders" },
     { label: "Shipping", href: "#" },
     { label: "Returns", href: "#" },
+    { label: "Log in", href: "/login" },
   ],
 };
 

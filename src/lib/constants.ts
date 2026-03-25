@@ -90,4 +90,5 @@ export const NAV_LINKS = [
   { label: "Pricing", href: "/pricing" },
   { label: "For Teams", href: "/for-teams" },
   { label: "For Sales", href: "/for-sales" },
+  { label: "Track Order", href: "/dashboard/orders" },
 ] as const;
