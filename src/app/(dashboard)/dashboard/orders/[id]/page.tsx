@@ -239,7 +239,8 @@ export default async function OrderDetailPage({
   const { id } = await params;
   const { email } = await searchParams;
 
-  const order = await getOrderById(id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const order: any = await getOrderById(id);
 
   if (!order) {
     notFound();

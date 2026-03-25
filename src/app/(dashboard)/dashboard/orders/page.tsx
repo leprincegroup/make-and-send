@@ -160,7 +160,8 @@ export default async function OrdersPage({
   searchParams: Promise<{ email?: string }>;
 }) {
   const { email } = await searchParams;
-  const orders = email ? await getOrdersByEmail(email) : [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const orders: any[] = email ? await getOrdersByEmail(email) : [];
 
   return (
     <div>
