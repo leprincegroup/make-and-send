@@ -9,42 +9,31 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import { Logo } from "@/components/shared/logo";
 
-export function MarketingNavbar({ variant = "light" }: { variant?: "light" | "dark" }) {
+export function MarketingNavbar({ variant: _variant = "dark" }: { variant?: "light" | "dark" } = {}) {
   const [open, setOpen] = useState(false);
-  const isDark = variant === "dark";
 
   return (
-    <header className={`sticky top-0 z-40 w-full transition-colors ${
-      isDark
-        ? "bg-navy/95 backdrop-blur-sm border-b border-white/10"
-        : "bg-cream/95 backdrop-blur-sm border-b border-navy/5"
-    }`}>
+    <header className="fixed top-0 left-0 right-0 z-50 pt-4 px-4 pointer-events-none">
       <nav
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10"
+        className="pointer-events-auto mx-auto flex h-14 max-w-4xl items-center justify-between rounded-full bg-navy/90 px-3 pl-6 backdrop-blur-md shadow-lg shadow-black/10"
         aria-label="Main navigation"
       >
-        <Link href="/" className="flex items-center">
-          <Logo
-            className="h-8 w-auto"
-            color={isDark ? "#F5F0E8" : "#1B1F3B"}
-          />
+        {/* Logo */}
+        <Link href="/" className="flex shrink-0 items-center">
+          <Logo className="h-6 w-auto" color="#F5F0E8" />
         </Link>
 
+        {/* Desktop nav links */}
         <ul className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  isDark
-                    ? "text-cream/70 hover:text-cream hover:bg-white/10"
-                    : "text-navy/60 hover:text-navy hover:bg-navy/5"
-                }`}
+                className="px-4 py-1.5 text-sm font-medium text-cream/75 transition-colors hover:text-white"
               >
                 {link.label}
               </Link>
@@ -52,19 +41,21 @@ export function MarketingNavbar({ variant = "light" }: { variant?: "light" | "da
           ))}
         </ul>
 
+        {/* Desktop CTA */}
         <div className="hidden lg:flex">
           <Link
             href="/create"
-            className="inline-flex items-center justify-center rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-navy hover:bg-gold-dark shadow-lg shadow-gold/20 transition-all hover:shadow-xl hover:shadow-gold/30 hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center rounded-full bg-gold px-5 py-2 text-sm font-semibold text-navy transition-all hover:bg-gold-dark hover:scale-[1.03] active:scale-[0.98]"
           >
-            Design Yours
+            Start Creating
           </Link>
         </div>
 
+        {/* Mobile hamburger */}
         <div className="lg:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
-              className={`inline-flex size-10 items-center justify-center rounded-lg transition-colors ${isDark ? "text-cream hover:bg-white/10" : "text-navy hover:bg-navy/5"}`}
+              className="inline-flex size-10 items-center justify-center rounded-full text-cream/80 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Menu className="size-5" />
               <span className="sr-only">Open menu</span>
@@ -73,7 +64,7 @@ export function MarketingNavbar({ variant = "light" }: { variant?: "light" | "da
               <SheetHeader>
                 <SheetTitle className="text-cream">{SITE_NAME}</SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-1 px-4 mt-6" aria-label="Mobile navigation">
+              <nav className="mt-8 flex flex-col gap-1 px-4" aria-label="Mobile navigation">
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.href}
@@ -88,9 +79,9 @@ export function MarketingNavbar({ variant = "light" }: { variant?: "light" | "da
                   <Link
                     href="/create"
                     onClick={() => setOpen(false)}
-                    className="flex w-full items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-navy hover:bg-gold-dark transition-all"
+                    className="flex w-full items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:bg-gold-dark"
                   >
-                    Design Yours
+                    Start Creating
                   </Link>
                 </div>
               </nav>
