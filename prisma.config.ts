@@ -13,7 +13,6 @@ if (fs.existsSync(envPath)) {
     if (eqIndex === -1) continue;
     const key = trimmed.slice(0, eqIndex);
     let value = trimmed.slice(eqIndex + 1);
-    // Remove surrounding quotes
     if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
       value = value.slice(1, -1);
     }
@@ -27,6 +26,5 @@ export default defineConfig({
   schema: path.join(__dirname, "prisma", "schema.prisma"),
   datasource: {
     url: process.env.DATABASE_URL!,
-    directUrl: process.env.DIRECT_URL,
   },
 });
