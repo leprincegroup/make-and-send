@@ -1,23 +1,19 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { useConfiguratorStore } from "@/stores/configurator-store";
 import Link from "next/link";
 import { CheckCircle, Package, ArrowRight } from "lucide-react";
 import { Confetti, DoodleSmile, MiniSparkle } from "@/components/shared/illustrations";
 
 function ConfirmationContent() {
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("session_id");
   const reset = useConfiguratorStore((s) => s.reset);
 
-  // Clear the configurator state after successful order
+  // Clear the configurator state after arriving at the confirmation page.
+  // Shopify redirects here after a successful checkout; no session ID needed.
   useEffect(() => {
-    if (sessionId) {
-      reset();
-    }
-  }, [sessionId, reset]);
+    reset();
+  }, [reset]);
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center px-5 py-16">

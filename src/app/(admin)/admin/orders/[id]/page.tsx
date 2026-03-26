@@ -224,7 +224,7 @@ export default async function AdminOrderDetailPage({
             </div>
             {order.stripePaymentId && (
               <p className="mt-3 text-xs text-navy/40">
-                Stripe: {order.stripePaymentId}
+                Payment ID: {order.stripePaymentId}
               </p>
             )}
           </Card>

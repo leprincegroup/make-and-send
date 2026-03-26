@@ -9,6 +9,7 @@ import {
 } from "@/stores/configurator-store";
 import { PRODUCT, BULK_DISCOUNTS } from "@/lib/constants";
 import { formatCurrency, cn } from "@/lib/utils";
+import { createCheckout, type CheckoutLineItem } from "@/lib/shopify/checkout";
 import { Input } from "@/components/ui/input";
 import {
   ArrowLeft,
@@ -210,34 +211,66 @@ export default function CheckoutPage() {
     setError(null);
 
     try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          people: people.map((p) => ({
-            recipientName: p.recipientName,
-            plaqueText: p.plaqueText,
-            photoUrl: p.photoUrl,
-            photoName: p.photoName,
-            shippingAddress: shipToOneAddress ? undefined : p.shippingAddress,
-          })),
-          isGift,
-          giftMessage,
-          shipToOneAddress,
-          sharedAddress: shipToOneAddress ? sharedAddress : undefined,
-          buyerEmail,
-        }),
+      // Build line items with custom attributes for each person
+      const variantId = process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_ID ?? "";
+
+      const items: CheckoutLineItem[] = people.map((p) => {
+        const attributes = [
+          { key: "Recipient Name", value: p.recipientName || "" },
+          { key: "Plaque Text", value: p.plaqueText || "" },
+          { key: "Photo URL", value: p.photoUrl || "" },
+          { key: "Photo Name", value: p.photoName || "" },
+        ];
+
+        if (!shipToOneAddress && p.shippingAddress) {
+          attributes.push({
+            key: "Shipping Address",
+            value: [
+              p.shippingAddress.firstName,
+              p.shippingAddress.lastName,
+              p.shippingAddress.address,
+              p.shippingAddress.city,
+              p.shippingAddress.state,
+              p.shippingAddress.zip,
+            ]
+              .filter(Boolean)
+              .join(", "),
+          });
+        }
+
+        return {
+          variantId,
+          quantity: 1,
+          attributes,
+        };
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to create checkout");
+      // Build order-level note with gift and shipping info
+      const noteParts: string[] = [];
+      if (isGift) noteParts.push(`Gift: Yes`);
+      if (isGift && giftMessage) noteParts.push(`Gift Message: ${giftMessage}`);
+      if (shipToOneAddress && sharedAddress) {
+        noteParts.push(
+          `Shared Shipping: ${[
+            sharedAddress.firstName,
+            sharedAddress.lastName,
+            sharedAddress.address,
+            sharedAddress.city,
+            sharedAddress.state,
+            sharedAddress.zip,
+          ]
+            .filter(Boolean)
+            .join(", ")}`
+        );
       }
 
-      if (data.url) {
-        window.location.href = data.url;
-      }
+      const { checkoutUrl } = await createCheckout(
+        items,
+        noteParts.length > 0 ? noteParts.join(" | ") : undefined,
+        buyerEmail
+      );
+
+      window.location.href = checkoutUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setIsLoading(false);
